@@ -1,0 +1,59 @@
+name: Project automations
+on:
+  issues:
+    types:
+      - opened
+      - reopened
+      - closed
+
+# map fields with customized labels
+env:
+  todo: Todo
+  done: Done
+  in_progress: In Progress
+  incoming: Incoming
+  project_id: 5
+  gh_app_secret_key: ${{ secrets.PROJECTS_UPDATE_APP_PEM }}
+  gh_app_installation_ID: 25206235
+  gh_app_ID: 194396
+  organization: coopnorge
+
+
+
+jobs:
+  issue_opened_or_reopened:
+    name: issue_opened_or_reopened
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' && (github.event.action == 'opened' || github.event.action == 'reopened')
+    steps:
+      - name: Move issue to ${{ env.incoming }}
+        uses: leonsteinhaeuser/project-beta-automations@v1.2.1
+        env:
+          DEBUG_COMMANDS: true
+          DEBUG_LOG: true
+        with:
+          status_value: ${{ env.incoming }}
+          organization: ${{ env.organization }}
+          gh_app_secret_key: ${{ env.gh_app_secret_key }}
+          gh_app_ID: ${{ env.gh_app_ID }}
+          gh_app_installation_ID: ${{ env.gh_app_installation_ID }}
+          project_id: ${{ env.project_id }}
+          resource_node_id: ${{ github.event.issue.node_id }}
+  issue_closed:
+    name: issue_closed
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' && github.event.action == 'closed'
+    steps:
+      - name: Moved issue to ${{ env.done }}
+        uses: leonsteinhaeuser/project-beta-automations@v1.2.1
+        env:
+          DEBUG_COMMANDS: true
+          DEBUG_LOG: true
+        with:
+          status_value: ${{ env.done }} # Target status
+          organization: ${{ env.organization }}
+          gh_app_secret_key: ${{ env.gh_app_secret_key }}
+          gh_app_ID: ${{ env.gh_app_ID }}
+          gh_app_installation_ID: ${{ env.gh_app_installation_ID }}
+          project_id: ${{ env.project_id }}
+          resource_node_id: ${{ github.event.issue.node_id }}
