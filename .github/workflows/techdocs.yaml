@@ -1,0 +1,109 @@
+---
+on:
+  workflow_call:
+    inputs:
+      docs_dir:
+        type: string
+        required: false
+        default: docs/
+      docker-compose-service:
+        type: string
+        required: false
+        default: techdocs
+      techdocs_bucket:
+        type: string
+        default: coop-techdocs-backstage-production-44f7
+        required: false
+      workload_identity_provider:
+        type: string
+        default: projects/1063410054216/locations/global/workloadIdentityPools/techdocs-pool/providers/techdocs-provider
+        required: false
+      workload_identity_service_account:
+        type: string
+        default: techdocs-publisher@backstage-production-44f7.iam.gserviceaccount.com
+        required: false
+    secrets: {}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      changed-markdown-files: ${{ steps.paths-filter.outputs.markdown_files }}
+      changed-markdown: ${{ steps.paths-filter.outputs.markdown }}
+      build: ${{ steps.paths-filter.outputs.build }}
+      publish: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: paths-filter
+        with:
+          base: main
+          list-files: shell
+          filters: |
+            build:
+              - '**/*.md'
+              - catalog-info.yaml
+              - mkdocs.yaml
+            markdown:
+              - '**/*.md'
+  techdocs:
+    needs: ['setup']
+    if: ${{ needs.setup.outputs.build == 'true' }}
+    permissions:
+      contents: read
+      id-token: write
+      packages: read
+    runs-on: ubuntu-latest
+    env:
+      XDG_CACHE_HOME: ${{ github.workspace }}/.cache
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - id: auth
+        uses: google-github-actions/auth@v0.8.1
+        with:
+          workload_identity_provider: ${{ inputs.workload_identity_provider }}
+          service_account: ${{ inputs.workload_identity_service_account }}
+          export_environment_variables: true
+          create_credentials_file: true
+      - run: |
+          mkdir -p ${HOME}/.config/gcloud
+          cp ${GOOGLE_APPLICATION_CREDENTIALS} $HOME/.config/gcloud/application_default_credentials.json
+        shell: bash
+      - uses: actions/cache@v3.0.10
+        with:
+          path: ${{ env.XDG_CACHE_HOME }}
+          key: xdg-cache-${{ runner.os }}
+          restore-keys: |
+            xdg-cache-
+      - name: Log in to ghcr.io
+        run: |
+          echo "${{ github.token }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Markdownlint
+        if: ${{ needs.setup.outputs.changed-markdown }}
+        run: |
+          docker compose run --rm ${{ inputs.docker-compose-service }} markdownlint ${{ inputs.docs_dir }}
+      - name: Linguistics Check
+        if: ${{ needs.setup.outputs.changed-markdown }}
+        run: |
+          docker compose run --rm ${{ inputs.docker-compose-service }} vale ${{ needs.setup.outputs.changed-markdown-files }}
+      - name: Build site
+        run: |
+          docker compose run --rm ${{ inputs.docker-compose-service }} techdocs-cli generate --no-docker
+      - id: entity
+        name: Get entity id
+        run: |
+          set -x
+          wget https://github.com/mikefarah/yq/releases/download/v4.25.2/yq_linux_amd64 -O ${GITHUB_WORKSPACE}/yq
+          chmod +x ${GITHUB_WORKSPACE}/yq
+          entity=$(${GITHUB_WORKSPACE}/yq '[.metadata.namespace // "default", .kind, .metadata.name] | join("/")' ./catalog-info.yaml)
+          echo "::set-output name=entity::${entity}"
+      - name: Publish site
+        shell: bash
+        run: |
+          docker compose run --rm ${{ inputs.docker-compose-service }} techdocs-cli publish --publisher-type googleGcs --storage-name ${{ inputs.techdocs_bucket }} --entity ${{ steps.entity.outputs.entity }}
+      - run: |
+          sudo chown -R $(id -u) ${{ env.XDG_CACHE_HOME }}
