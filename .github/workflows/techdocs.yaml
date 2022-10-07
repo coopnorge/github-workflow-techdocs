@@ -103,7 +103,7 @@ jobs:
           echo "::set-output name=entity::${entity}"
       - name: Publish site
         shell: bash
-        if: ${{ ${{ needs.setup.outputs.publish == 'true' }} }}
+        if: ${{ needs.setup.outputs.publish == 'true' }}
         run: |
           docker compose run --rm ${{ inputs.docker-compose-service }} techdocs-cli publish --publisher-type googleGcs --storage-name ${{ inputs.techdocs_bucket }} --entity ${{ steps.entity.outputs.entity }}
       - run: |
