@@ -29,6 +29,10 @@ concurrency:
 jobs:
   setup:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      packages: read
     outputs:
       changed-markdown-files: ${{ steps.paths-filter.outputs.markdown_files }}
       changed-markdown: ${{ steps.paths-filter.outputs.markdown }}
