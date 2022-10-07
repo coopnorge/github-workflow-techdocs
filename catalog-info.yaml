@@ -6,6 +6,7 @@ metadata:
   description: Publish your TechDocs to Inventory
   annotations:
     github.com/project-slug: coopnorge/github-workflow-techdocs
+    backstage.io/techdocs-ref: dir:.
 spec:
   type: library
   lifecycle: experimental
