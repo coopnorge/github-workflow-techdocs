@@ -8,7 +8,7 @@ Expect breaking changes until version 1.
 
 In your repository add these 3 files.
 
-`.github/workflow/techdocs.yaml`
+`.github/workflows/techdocs.yaml`
 ```yaml
 ---
 name: TechDocs
