@@ -101,9 +101,9 @@ jobs:
         name: Get entity id
         run: |
           set -x
-          wget https://github.com/mikefarah/yq/releases/download/v4.25.2/yq_linux_amd64 -O ${GITHUB_WORKSPACE}/yq
+          wget https://github.com/mikefarah/yq/releases/download/v4.28.1/yq_linux_amd64 -O ${GITHUB_WORKSPACE}/yq
           chmod +x ${GITHUB_WORKSPACE}/yq
-          entity=$(${GITHUB_WORKSPACE}/yq '[.metadata.namespace // "default", .kind, .metadata.name] | join("/")' ./catalog-info.yaml)
+          entity=$(${GITHUB_WORKSPACE}/yq --no-doc '[.metadata.namespace // "default", .kind, .metadata.name] | join("/")' ./catalog-info.yaml)
           echo "::set-output name=entity::${entity}"
       - name: Publish site
         shell: bash
