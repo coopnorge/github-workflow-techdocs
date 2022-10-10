@@ -6,6 +6,9 @@ Expect breaking changes until version 1.
 
 ## Usage
 
+You `catalog-info.yaml` file can only contain a single object and cannot start
+with an object separator (`---`).
+
 In your repository add these 3 files.
 
 ```yaml title=".github/workflows/techdocs.yaml"
