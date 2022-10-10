@@ -6,13 +6,82 @@ Expect breaking changes until version 1.
 
 ## Usage
 
-You `catalog-info.yaml` file can only contain a single object and cannot start
-with an object separator (`---`).
+In your repository you will need the following:
 
-In your repository add these 3 files.
+### Content and TechDocs configuration
+
+#### Documentation
+
+A `docs` directory containing at least an `index.md` file. The `docs` directory
+must be in the same directory as the `mkdocs.yml` file.
+
+#### Component descriptor
+
+```yaml title="catalog-info.yaml"
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mycomponent
+  description: What my component does
+  annotations:
+    github.com/project-slug: coopnorge/mycomponent-repository
+    backstage.io/techdocs-ref: dir:. # This is where TechDocs looks for mkdocs.yml
+spec:
+  type: library
+  lifecycle: experimental
+  owner: platform-guild
+```
+
+For more information about see [Descriptor Format of Catalog Entities].
+
+#### MkDocs configuration
+
+```yaml title="mkdocs.yml"
+site_name: The name of the documentation site
+```
+
+The `mkdocs.yml` file must contain at least the `site_name`.
+
+For more information see: [Creating and publishing your docs].
+
+#### markdownlint configuration
+
+```yaml title=".markdownlint.yaml"
+---
+default: true
+
+# MD007/ul-indent - Unordered list indentation
+MD007:
+  indent: 4  # This is what works in mkdocs
+
+MD033: false
+
+# MD046/code-block-style - Code block style
+MD046: false
+
+
+MD013:
+  code_blocks: false
+  tables: false
+
+MD024:
+  allow_different_nesting: true
+
+# MD029- ignored to prevent errors when using code blocks within ordered lists
+MD029: false
+```
+
+#### Value configuration
+
+```ini title=".vale.ini"
+[*.md]
+TokenIgnores = [\w][\w.]*@[\w*][\w.]*[\w]
+BasedOnStyles = Vale
+```
+
+### Workflow configuration
 
 ```yaml title=".github/workflows/techdocs.yaml"
----
 name: TechDocs
 on:
   push: {}
@@ -66,4 +135,6 @@ FROM ghcr.io/coopnorge/engineering-docker-images/e0/techdocs:latest@sha256:709cb
 | `workload_identity_service_account` | `string` | `false`  | Service Account that can managed the Cloud Storage Bucket, used for debugging                  | `techdocs-publisher@backstage-production-44f7.iam.gserviceaccount.com`                                    |
 <!-- markdownlint-enable MD013 -->
 
+[Creating and publishing your docs]: https://backstage.io/docs/features/techdocs/creating-and-publishing
+[Descriptor Format of Catalog Entities]: https://backstage.io/docs/features/software-catalog/descriptor-format
 [TechDocs Engineering Image]: https://github.com/coopnorge/engineering-docker-images/tree/main/images/techdocs
