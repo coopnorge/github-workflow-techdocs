@@ -71,7 +71,7 @@ MD024:
 MD029: false
 ```
 
-#### Value configuration
+#### Vale configuration
 
 ```ini title=".vale.ini"
 [*.md]
