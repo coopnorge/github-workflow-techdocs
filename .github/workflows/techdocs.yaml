@@ -77,7 +77,7 @@ jobs:
           mkdir -p ${HOME}/.config/gcloud
           cp ${GOOGLE_APPLICATION_CREDENTIALS} $HOME/.config/gcloud/application_default_credentials.json
         shell: bash
-      - uses: actions/cache@v3.0.10
+      - uses: actions/cache@v3.0.11
         with:
           path: ${{ env.XDG_CACHE_HOME }}
           key: xdg-cache-${{ runner.os }}
