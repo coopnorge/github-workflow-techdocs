@@ -95,34 +95,6 @@ jobs:
     uses: coopnorge/github-workflow-techdocs/.github/workflows/techdocs.yaml@v0
 ```
 
-```yaml title="docker-compose.yaml"
-services:
-  techdocs:
-    build:
-      context: docker-compose
-      dockerfile: Dockerfile
-      target: techdocs
-    working_dir: /content
-    environment:
-      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-}
-      GCLOUD_PROJECT: ${GCLOUD_PROJECT:-}
-    volumes:
-      - .:/content
-      - ${XDG_CACHE_HOME:-xdg-cache-home}:/root/.cache
-      - $HOME/.config/gcloud:/root/.config/gcloud
-      - ${GOOGLE_APPLICATION_CREDENTIALS:-nothing}:${GOOGLE_APPLICATION_CREDENTIALS:-/tmp/empty-GOOGLE_APPLICATION_CREDENTIALS}
-    ports:
-      - "127.0.0.1:3000:3000/tcp"
-      - "127.0.0.1:8000:8000/tcp"
-volumes:
-  xdg-cache-home: { }
-  nothing: { }
-```
-
-```Dockerfile title="docker-compose/Dockerfile"
-FROM ghcr.io/coopnorge/engineering-docker-images/e0/techdocs:latest@sha256:709cbdadb158616ea681e042d9f48f4eeafe574e7265c1765e3de38de7109dec as techdocs
-```
-
 ### Inputs
 
 <!-- markdownlint-disable MD013 -->

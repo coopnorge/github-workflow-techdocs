@@ -11,3 +11,5 @@ spec:
   type: library
   lifecycle: experimental
   owner: platform-guild
+  dependsOn:
+    - component:default/github-action-techdocs
