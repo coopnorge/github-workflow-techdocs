@@ -10,6 +10,6 @@ metadata:
 spec:
   type: library
   lifecycle: experimental
-  owner: platform-guild
+  owner: engineering
   dependsOn:
     - component:default/github-action-techdocs
