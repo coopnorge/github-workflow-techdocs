@@ -77,18 +77,18 @@ jobs:
         if: ${{ needs.setup.outputs.changed-markdown }}
         uses: coopnorge/github-action-techdocs@v0
         with:
-          cmd: markdownlint ${{ inputs.docs_dir }}
+          cmd: 'lint DOCS_DIR="${{ inputs.docs_dir }}"'
       - name: Linguistics Check
         if: ${{ needs.setup.outputs.changed-markdown }}
         uses: coopnorge/github-action-techdocs@v0
         with:
-          cmd: vale ${{ needs.setup.outputs.changed-markdown-files }}
+          cmd: 'linguistics-check MARKDOWN_FILES="${{ needs.setup.outputs.changed-markdown-files }}"'
       - name: Build site
         uses: coopnorge/github-action-techdocs@v0
         with:
-          cmd: techdocs-cli generate --no-docker
+          cmd: build
       - name: Publish site
         if: ${{ needs.setup.outputs.publish == 'true' }}
         uses: coopnorge/github-action-techdocs@v0
         with:
-          cmd: entity=$(yq --no-doc '[.metadata.namespace // "default", .kind, .metadata.name] | join("/")' ./catalog-info.yaml) && techdocs-cli publish --publisher-type googleGcs --storage-name ${{ inputs.techdocs_bucket }} --entity ${entity}
+          cmd: 'publish TECHDOCS_BUCKET="${{ inputs.techdocs_bucket }}"'
