@@ -1,0 +1,15 @@
+on:
+  issues:
+    types:
+      - opened
+      - reopened
+      - closed
+jobs:
+  handle-issues:
+    uses: coopnorge/github-workflow-github-issues-and-pr-organizer/.github/workflows/reusable-handle-issues-workflow.yaml@v1
+    with:
+      incoming_column: New
+      done_column: Done
+      project_id: 47
+    secrets:
+      gh_app_secret_key: ${{ secrets.PROJECTS_UPDATE_APP_PEM }}
