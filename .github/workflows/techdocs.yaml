@@ -73,39 +73,22 @@ jobs:
           service_account: ${{ inputs.workload_identity_service_account }}
           export_environment_variables: true
           create_credentials_file: true
-      - run: |
-          mkdir -p ${HOME}/.config/gcloud
-          cp ${GOOGLE_APPLICATION_CREDENTIALS} $HOME/.config/gcloud/application_default_credentials.json
-        shell: bash
-      - uses: actions/cache@v3.0.10
-        with:
-          path: ${{ env.XDG_CACHE_HOME }}
-          key: xdg-cache-${{ runner.os }}
-          restore-keys: |
-            xdg-cache-
-      - name: Log in to ghcr.io
-        run: |
-          echo "${{ github.token }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Markdownlint
         if: ${{ needs.setup.outputs.changed-markdown }}
-        run: |
-          docker compose run --rm ${{ inputs.docker-compose-service }} markdownlint ${{ inputs.docs_dir }}
+        uses: coopnorge/github-action-techdocs@v0
+        with:
+          cmd: markdownlint ${{ inputs.docs_dir }}
       - name: Linguistics Check
         if: ${{ needs.setup.outputs.changed-markdown }}
-        run: |
-          docker compose run --rm ${{ inputs.docker-compose-service }} vale ${{ needs.setup.outputs.changed-markdown-files }}
+        uses: coopnorge/github-action-techdocs@v0
+        with:
+          cmd: vale ${{ needs.setup.outputs.changed-markdown-files }}
       - name: Build site
-        run: |
-          docker compose run --rm ${{ inputs.docker-compose-service }} techdocs-cli generate --no-docker
-      - id: entity
-        name: Get entity id
-        run: |
-          entity=$(docker compose run --rm ${{ inputs.docker-compose-service }} yq --no-doc '[.metadata.namespace // "default", .kind, .metadata.name] | join("/")' ./catalog-info.yaml)
-          echo "::set-output name=entity::${entity}"
+        uses: coopnorge/github-action-techdocs@v0
+        with:
+          cmd: techdocs-cli generate --no-docker
       - name: Publish site
-        shell: bash
         if: ${{ needs.setup.outputs.publish == 'true' }}
-        run: |
-          docker compose run --rm ${{ inputs.docker-compose-service }} techdocs-cli publish --publisher-type googleGcs --storage-name ${{ inputs.techdocs_bucket }} --entity ${{ steps.entity.outputs.entity }}
-      - run: |
-          sudo chown -R $(id -u) ${{ env.XDG_CACHE_HOME }}
+        uses: coopnorge/github-action-techdocs@v0
+        with:
+          cmd: entity=$(yq --no-doc '[.metadata.namespace // "default", .kind, .metadata.name] | join("/")' ./catalog-info.yaml) && techdocs-cli publish --publisher-type googleGcs --storage-name ${{ inputs.techdocs_bucket }} --entity ${entity}
