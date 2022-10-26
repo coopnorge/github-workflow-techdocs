@@ -51,7 +51,7 @@ jobs:
               - catalog-info.yaml
               - mkdocs.yaml
             markdown:
-              - '**/*.md'
+              - added|modified: '**/*.md'
   techdocs:
     needs: ['setup']
     if: ${{ needs.setup.outputs.build == 'true' }}
