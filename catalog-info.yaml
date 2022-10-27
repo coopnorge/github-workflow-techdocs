@@ -3,6 +3,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: github-workflow-techdocs
+  title: TechDocs GitHub Actions Workflow
   description: Publish your TechDocs to Inventory
   annotations:
     github.com/project-slug: coopnorge/github-workflow-techdocs
