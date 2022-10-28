@@ -86,7 +86,7 @@ jobs:
       - name: Build site
         uses: coopnorge/github-action-techdocs@v0
         with:
-          cmd: build
+          cmd: 'build REPO_NAME="${{ github.repository }}" REPO_URL="${{ github.event.repository.html_url }}" EDIT_URL="edit/${{ github.event.repository.default_branch }}/${{ inputs.docs_dir }}"'
       - name: Publish site
         if: ${{ needs.setup.outputs.publish == 'true' }}
         uses: coopnorge/github-action-techdocs@v0
