@@ -22,6 +22,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: mycomponent
+  title: My Component
   description: What my component does
   annotations:
     github.com/project-slug: coopnorge/mycomponent-repository
