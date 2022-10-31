@@ -36,15 +36,9 @@ For more information about see [Descriptor Format of Catalog Entities].
 
 #### MkDocs configuration
 
-```yaml title="mkdocs.yml"
-site_name: The name of the documentation site
-```
-
-The `mkdocs.yml` file must contain at least the `site_name`. The `mkdocs.yml`
-file provided by the calling repository is merged with a [baseline `mkdocs.yml`
-configuration
-file](https://github.com/coopnorge/engineering-docker-images/blob/main/images/techdocs/context/mkdocs.yml)
-that provides a default configuration and a set up bundled plugins.
+The centrally managed
+[`mkdocs.yml`](https://github.com/coopnorge/engineering-docker-images/blob/main/images/techdocs/context/mkdocs.yml)
+provides a default configuration and a set up of bundled plugins.
 
 For more information see: [Creating and publishing your docs].
 
