@@ -11,6 +11,6 @@ metadata:
 spec:
   type: library
   lifecycle: experimental
-  owner: engineering
+  owner: developer-productivity
   dependsOn:
     - component:default/github-action-techdocs
