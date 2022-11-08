@@ -17,6 +17,7 @@ services:
     ports:
       - "127.0.0.1:3000:3000/tcp"
       - "127.0.0.1:8000:8000/tcp"
+    command: serve
 volumes:
   xdg-cache-home: { }
   nothing: { }
