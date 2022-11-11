@@ -2,10 +2,6 @@
 on:
   workflow_call:
     inputs:
-      docs_dir:
-        type: string
-        required: false
-        default: docs/
       docker-compose-service:
         type: string
         required: false
@@ -73,16 +69,11 @@ jobs:
           service_account: ${{ inputs.workload_identity_service_account }}
           export_environment_variables: true
           create_credentials_file: true
-      - name: Markdownlint
+      - name: Validate
         if: ${{ needs.setup.outputs.changed-markdown }}
         uses: coopnorge/github-action-techdocs@v0
         with:
-          cmd: 'lint DOCS_DIR="${{ inputs.docs_dir }}"'
-      - name: Linguistics Check
-        if: ${{ needs.setup.outputs.changed-markdown }}
-        uses: coopnorge/github-action-techdocs@v0
-        with:
-          cmd: 'linguistics-check MARKDOWN_FILES="${{ needs.setup.outputs.changed-markdown-files }}"'
+          cmd: 'validate MARKDOWN_FILES="${{ needs.setup.outputs.changed-markdown-files }}"'
       - name: Build site
         uses: coopnorge/github-action-techdocs@v0
         with:
