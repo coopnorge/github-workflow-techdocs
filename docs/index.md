@@ -35,6 +35,47 @@ spec:
 
 For more information about see [Descriptor Format of Catalog Entities].
 
+#### Docker compose configuration
+
+```yaml title="docker-compose.yaml"
+services:
+  techdocs:
+    build:
+      context: docker-compose
+      dockerfile: Dockerfile
+      target: techdocs
+    working_dir: /content
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-}
+      GCLOUD_PROJECT: ${GCLOUD_PROJECT:-}
+    volumes:
+      - .:/content
+      - ${XDG_CACHE_HOME:-xdg-cache-home}:/root/.cache
+      - $HOME/.config/gcloud:/root/.config/gcloud
+      - ${GOOGLE_APPLICATION_CREDENTIALS:-nothing}:${GOOGLE_APPLICATION_CREDENTIALS:-/tmp/empty-GOOGLE_APPLICATION_CREDENTIALS}
+    ports:
+      - "127.0.0.1:3000:3000/tcp"
+      - "127.0.0.1:8000:8000/tcp"
+    command: serve
+volumes:
+  xdg-cache-home: { }
+  nothing: { }
+```
+
+```Dockerfile title="docker-compose/Dockerfile"
+FROM ghcr.io/coopnorge/engineering-docker-images/e0/techdocs:latest@sha256:1216b9a8944a5e8d24a7c878209748430140eee33f03e2b12c89d2216a21d924 as techdocs
+```
+
+```yaml title=".github/dependabot.yml"
+version: 2
+
+updates:
+  - package-ecosystem: "docker"
+    directory: "/docker-compose"
+    schedule:
+      interval: "daily"
+```
+
 #### MkDocs configuration
 
 The centrally managed

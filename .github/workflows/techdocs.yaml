@@ -75,15 +75,9 @@ jobs:
           create_credentials_file: true
       - name: Validate
         if: ${{ needs.setup.outputs.changed-markdown }}
-        uses: coopnorge/github-action-techdocs@v0
-        with:
-          cmd: 'validate MARKDOWN_FILES="${{ needs.setup.outputs.changed-markdown-files }}"'
+        run: 'docker compose run --rm ${{ inputs.docker-compose-service }} validate MARKDOWN_FILES="${{ needs.setup.outputs.changed-markdown-files }}"'
       - name: Build site
-        uses: coopnorge/github-action-techdocs@v0
-        with:
-          cmd: 'build REPO_NAME="${{ github.repository }}" REPO_URL="${{ github.event.repository.html_url }}" EDIT_URI="edit/${{ github.event.repository.default_branch }}/${{ inputs.docs_dir }}"'
+        run: 'docker compose run --rm ${{ inputs.docker-compose-service }} build REPO_NAME="${{ github.repository }}" REPO_URL="${{ github.event.repository.html_url }}" EDIT_URI="edit/${{ github.event.repository.default_branch }}/${{ inputs.docs_dir }}"'
       - name: Publish site
         if: ${{ needs.setup.outputs.publish == 'true' }}
-        uses: coopnorge/github-action-techdocs@v0
-        with:
-          cmd: 'publish TECHDOCS_BUCKET="${{ inputs.techdocs_bucket }}"'
+        run: 'docker compose run --rm ${{ inputs.docker-compose-service }} publish TECHDOCS_BUCKET="${{ inputs.techdocs_bucket }}"'
