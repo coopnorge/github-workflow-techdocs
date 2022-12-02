@@ -114,6 +114,8 @@ MD029: false
 #### Vale configuration
 
 ```ini title=".vale.ini"
+StylesPath = .vale/styles
+
 [*.md]
 TokenIgnores = [\w][\w.]*@[\w*][\w.]*[\w]
 BasedOnStyles = Vale
