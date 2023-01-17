@@ -116,9 +116,7 @@ MD029: false
 ```ini title=".vale.ini"
 StylesPath = .vale/styles
 
-[*.md]
-TokenIgnores = [\w][\w.]*@[\w*][\w.]*[\w]
-BasedOnStyles = Vale
+Packages = https://github.com/coopnorge/vale-coop/releases/latest/download/Coop.zip
 ```
 
 ### Workflow configuration
