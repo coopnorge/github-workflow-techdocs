@@ -12,5 +12,6 @@ spec:
   type: library
   lifecycle: experimental
   owner: developer-productivity
+  system: internal-developer-portal
   dependsOn:
     - component:default/github-action-techdocs
