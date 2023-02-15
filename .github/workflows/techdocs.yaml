@@ -24,7 +24,7 @@ on:
         required: false
     secrets: {}
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: techdocs-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   setup:
