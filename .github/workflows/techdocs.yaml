@@ -55,6 +55,10 @@ jobs:
               - docker-compose/Dockerfile
             markdown:
               - added|modified: '**/*.md'
+              - added|modified: '**/*.jpg'
+              - added|modified: '**/*.JPG'
+              - added|modified: '**/*.png'
+              - added|modified: '**/*.svg'
   techdocs:
     needs: ['setup']
     if: ${{ needs.setup.outputs.build == 'true' }}
