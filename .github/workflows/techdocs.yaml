@@ -53,12 +53,12 @@ jobs:
               - docker-compose.yaml
               - docker-compose.yml
               - docker-compose/Dockerfile
+              - '**/*.jpg'
+              - '**/*.JPG'
+              - '**/*.png'
+              - '**/*.svg'
             markdown:
               - added|modified: '**/*.md'
-              - added|modified: '**/*.jpg'
-              - added|modified: '**/*.JPG'
-              - added|modified: '**/*.png'
-              - added|modified: '**/*.svg'
   techdocs:
     needs: ['setup']
     if: ${{ needs.setup.outputs.build == 'true' }}
