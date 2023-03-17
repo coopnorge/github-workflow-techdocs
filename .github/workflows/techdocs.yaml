@@ -47,18 +47,18 @@ jobs:
           list-files: shell
           filters: |
             build:
-              - '**/*.md'
               - catalog-info.yaml
               - mkdocs.yaml
               - docker-compose.yaml
               - docker-compose.yml
               - docker-compose/Dockerfile
-              - '**/*.jpg'
-              - '**/*.JPG'
-              - '**/*.png'
-              - '**/*.svg'
+              - "${{ inputs.docs_dir }}**/*.md"
+              - "${{ inputs.docs_dir }}**/*.jpg"
+              - "${{ inputs.docs_dir }}**/*.JPG"
+              - "${{ inputs.docs_dir }}**/*.png"
+              - "${{ inputs.docs_dir }}**/*.svg"
             markdown:
-              - added|modified: '**/*.md'
+              - added|modified: "${{ inputs.docs_dir }}**/*.md"
   techdocs:
     needs: ['setup']
     if: ${{ needs.setup.outputs.build == 'true' }}
