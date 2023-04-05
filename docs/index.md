@@ -69,9 +69,18 @@ FROM ghcr.io/coopnorge/engineering-docker-images/e0/techdocs:latest@sha256:1216b
 ```yaml title=".github/dependabot.yml"
 version: 2
 
+registries:
+  coop-ghcr:
+    type: docker-registry
+    url: ghcr.io
+    username: CoopGithubServiceaccount
+    password: ${{ secrets.DEPENDABOT_GHCR_PULL }}
+
 updates:
   - package-ecosystem: "docker"
     directory: "/docker-compose"
+    registries:
+      - coop-ghcr
     schedule:
       interval: "daily"
 ```
@@ -133,6 +142,14 @@ jobs:
       packages: read
     name: TechDocs
     uses: coopnorge/github-workflow-techdocs/.github/workflows/techdocs.yaml@v0
+```
+
+### `.gitignore` configuration
+
+Add this line to `.gitignore`
+
+```text
+.vale
 ```
 
 ### Inputs
