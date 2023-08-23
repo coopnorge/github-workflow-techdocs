@@ -13,5 +13,3 @@ spec:
   lifecycle: experimental
   owner: engineering
   system: internal-developer-portal
-  dependsOn:
-    - component:default/github-action-techdocs
