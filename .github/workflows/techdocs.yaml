@@ -33,6 +33,7 @@ jobs:
       contents: read
       id-token: write
       packages: read
+      pull-requests: read
     outputs:
       changed-markdown-files: ${{ steps.paths-filter.outputs.markdown_files }}
       changed-markdown: ${{ steps.paths-filter.outputs.markdown }}
@@ -60,7 +61,7 @@ jobs:
             markdown:
               - added|modified: "${{ inputs.docs_dir }}**/*.md"
   techdocs:
-    needs: ['setup']
+    needs: ["setup"]
     if: ${{ needs.setup.outputs.build == 'true' }}
     permissions:
       contents: read
