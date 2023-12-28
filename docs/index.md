@@ -140,6 +140,7 @@ jobs:
       contents: read
       id-token: write
       packages: read
+      pull-requests: read
     name: TechDocs
     uses: coopnorge/github-workflow-techdocs/.github/workflows/techdocs.yaml@v0
 ```
