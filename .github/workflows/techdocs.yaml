@@ -53,11 +53,12 @@ jobs:
               - docker-compose.yaml
               - docker-compose.yml
               - docker-compose/Dockerfile
-              - "${{ inputs.docs_dir }}**/*.md"
-              - "${{ inputs.docs_dir }}**/*.jpg"
               - "${{ inputs.docs_dir }}**/*.JPG"
+              - "${{ inputs.docs_dir }}**/*.jpg"
+              - "${{ inputs.docs_dir }}**/*.md"
               - "${{ inputs.docs_dir }}**/*.png"
               - "${{ inputs.docs_dir }}**/*.svg"
+              - "${{ inputs.docs_dir }}**/.pages"
             markdown:
               - added|modified: "${{ inputs.docs_dir }}**/*.md"
   techdocs:
