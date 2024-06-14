@@ -49,9 +49,11 @@ jobs:
           filters: |
             build:
               - catalog-info.yaml
+              - mkdocs.yml
               - mkdocs.yaml
               - docker-compose.yaml
               - docker-compose.yml
+              - devtools/Dockerfile
               - docker-compose/Dockerfile
               - "${{ inputs.docs_dir }}**/*.JPG"
               - "${{ inputs.docs_dir }}**/*.jpg"
