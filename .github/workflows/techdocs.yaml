@@ -55,6 +55,8 @@ jobs:
               - docker-compose.yml
               - devtools/Dockerfile
               - docker-compose/Dockerfile
+              - devtools/techdocs.Dockerfile
+              - docker-compose/techdocs.Dockerfile
               - "${{ inputs.docs_dir }}**/*.JPG"
               - "${{ inputs.docs_dir }}**/*.jpg"
               - "${{ inputs.docs_dir }}**/*.md"
