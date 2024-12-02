@@ -53,6 +53,8 @@ jobs:
               - mkdocs.yaml
               - docker-compose.yaml
               - docker-compose.yml
+              - devtools/techdocs.yaml
+              - docker-compose/techdocs.yaml
               - devtools/Dockerfile
               - docker-compose/Dockerfile
               - devtools/techdocs.Dockerfile
