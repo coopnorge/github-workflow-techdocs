@@ -87,7 +87,7 @@ jobs:
       - name: Build site
         run: 'docker compose run --rm ${{ inputs.docker-compose-service }} build REPO_NAME="${{ github.repository }}" REPO_URL="${{ github.event.repository.html_url }}" EDIT_URI="edit/${{ github.event.repository.default_branch }}/${{ inputs.docs_dir }}"'
       - id: auth
-        uses: google-github-actions/auth@v2.1.7
+        uses: google-github-actions/auth@v2.1.8
         if: ${{ needs.setup.outputs.publish == 'true' }}
         with:
           workload_identity_provider: ${{ inputs.workload_identity_provider }}
