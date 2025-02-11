@@ -41,7 +41,7 @@ jobs:
       publish: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # pin@v3
         id: paths-filter
         with:
           base: main
@@ -87,7 +87,7 @@ jobs:
       - name: Build site
         run: 'docker compose run --rm ${{ inputs.docker-compose-service }} build REPO_NAME="${{ github.repository }}" REPO_URL="${{ github.event.repository.html_url }}" EDIT_URI="edit/${{ github.event.repository.default_branch }}/${{ inputs.docs_dir }}"'
       - id: auth
-        uses: google-github-actions/auth@v2.1.8
+        uses: google-github-actions/auth@71f986410dfbc7added4569d411d040a91dc6935 # pin@v2.1.8
         if: ${{ needs.setup.outputs.publish == 'true' }}
         with:
           workload_identity_provider: ${{ inputs.workload_identity_provider }}
