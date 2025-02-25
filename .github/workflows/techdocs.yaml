@@ -1,4 +1,3 @@
----
 on:
   workflow_call:
     inputs:
@@ -31,8 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write
-      packages: read
       pull-requests: read
     outputs:
       changed-markdown-files: ${{ steps.paths-filter.outputs.markdown_files }}
