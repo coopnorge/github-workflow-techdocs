@@ -27,7 +27,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   setup:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       pull-requests: read
@@ -71,7 +71,7 @@ jobs:
       contents: read
       id-token: write
       packages: read
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       XDG_CACHE_HOME: ${{ github.workspace }}/.cache
     steps:
