@@ -1,0 +1,15 @@
+name: Update major release tag
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-major-tag:
+    uses: coopnorge/github-workflow-release-tagger-for-github-workflows/.github/workflows/release-tagger-for-github-workflows.yaml@v0
+    with:
+      tag-name: ${{ github.event.release.tag_name }}
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
