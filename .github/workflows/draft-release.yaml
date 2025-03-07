@@ -1,0 +1,23 @@
+name: Draft release
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+
+permissions:
+  contents: read
+
+jobs:
+  release-draft:
+    permissions:
+      pull-requests: write
+      contents: write
+    uses: coopnorge/github-workflow-release-drafter/.github/workflows/release-drafter.yaml@v0.6.0
+    secrets: inherit
