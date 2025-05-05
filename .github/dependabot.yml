@@ -14,7 +14,7 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "docker"
-    directory: "/docker-compose"
+    directory: "/devtools"
     registries:
       - coop-ghcr
     schedule:
