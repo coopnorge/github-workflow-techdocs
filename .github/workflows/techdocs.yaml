@@ -62,6 +62,7 @@ jobs:
               - "${{ inputs.docs_dir }}**/*.png"
               - "${{ inputs.docs_dir }}**/*.svg"
               - "${{ inputs.docs_dir }}**/.pages"
+              - .vale/**
             markdown:
               - added|modified: "${{ inputs.docs_dir }}**/*.md"
   techdocs:
