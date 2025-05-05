@@ -2,7 +2,7 @@
 services:
   techdocs:
     build:
-      context: docker-compose
+      context: devtools
       dockerfile: Dockerfile
       target: techdocs
     environment:
