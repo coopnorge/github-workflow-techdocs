@@ -19,5 +19,5 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
-    uses: coopnorge/github-workflow-release-drafter/.github/workflows/release-drafter.yaml@v0.6.0
+    uses: coopnorge/github-workflow-release-drafter/.github/workflows/release-drafter.yaml@v0.7.0
     secrets: inherit
