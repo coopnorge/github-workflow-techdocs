@@ -9,6 +9,11 @@ on:
         type: string
         required: false
         default: techdocs
+      fetch-contributors:
+        type: boolean
+        required: false
+        default: false
+      # The bucket name for TechDocs storage.
       techdocs_bucket:
         type: string
         default: coop-techdocs-backstage-production-44f7
@@ -83,7 +88,9 @@ jobs:
         if: ${{ needs.setup.outputs.changed-markdown }}
         run: 'docker compose run --rm ${{ inputs.docker-compose-service }} validate MARKDOWN_FILES="${{ needs.setup.outputs.changed-markdown-files }}"'
       - name: Build site
-        run: 'docker compose run --rm ${{ inputs.docker-compose-service }} build REPO_NAME="${{ github.repository }}" REPO_URL="${{ github.event.repository.html_url }}" EDIT_URI="edit/${{ github.event.repository.default_branch }}/${{ inputs.docs_dir }}"'
+        run: 'docker compose run --rm ${{ inputs.docker-compose-service }} build REPO_NAME="${{ github.repository }}" REPO_URL="${{ github.event.repository.html_url }}" EDIT_URI="edit/${{ github.event.repository.default_branch }}/${{ inputs.docs_dir }}" FETCH_CONTRIBUTORS=${{ inputs.fetch-contributors }} GITHUB_TOKEN=${GITHUB_TOKEN}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - id: auth
         uses: google-github-actions/auth@ba79af03959ebeac9769e648f473a284504d9193 # pin@v2.1.10
         if: ${{ needs.setup.outputs.publish == 'true' }}
