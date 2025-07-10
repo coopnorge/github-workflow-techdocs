@@ -67,10 +67,10 @@ jobs:
               - "${{ inputs.docs_dir }}**/*.png"
               - "${{ inputs.docs_dir }}**/*.svg"
               - "${{ inputs.docs_dir }}**/.pages"
-              - "${{ inputs.docs_dir }}**/.tf"
-              - "${{ inputs.docs_dir }}**/.go"
-              - "${{ inputs.docs_dir }}**/.py"
-              - "${{ inputs.docs_dir }}**/.yaml"
+              - "${{ inputs.docs_dir }}**/*.tf"
+              - "${{ inputs.docs_dir }}**/*.go"
+              - "${{ inputs.docs_dir }}**/*.py"
+              - "${{ inputs.docs_dir }}**/*.yaml"
               - .vale/**
             markdown:
               - added|modified: "${{ inputs.docs_dir }}**/*.md"
