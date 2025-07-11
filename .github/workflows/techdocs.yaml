@@ -71,6 +71,8 @@ jobs:
               - "${{ inputs.docs_dir }}**/*.go"
               - "${{ inputs.docs_dir }}**/*.py"
               - "${{ inputs.docs_dir }}**/*.yaml"
+              - "${{ inputs.docs_dir }}**/Dockerfile"
+              - "${{ inputs.docs_dir }}**/*.Dockerfile"
               - .vale/**
             markdown:
               - added|modified: "${{ inputs.docs_dir }}**/*.md"
