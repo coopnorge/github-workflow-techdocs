@@ -1,0 +1,18 @@
+apiVersion: github.coop.no/v1alpha1
+kind: RepositoryConfig
+metadata:
+  name: github-workflow-techdocs
+spec:
+  description: "No description provided"
+
+  branches:
+    default: main
+    protection:
+      - id: main
+        pattern: main
+        requireSignedCommits: false
+        requiredStatusChecks:
+          checks:
+            - "build"
+        requiredPullRequestReviews:
+          requireCodeOwnerReviews: true
