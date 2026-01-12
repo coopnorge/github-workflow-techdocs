@@ -8,13 +8,14 @@ spec:
   branches:
     default: main
     protection:
-    - id: main
-      pattern: main
-      requireSignedCommits: false
-      requiredStatusChecks:
-        checks:
-        - "build"
-      requiredPullRequestReviews:
-        requireCodeOwnerReviews: true
+      - id: main
+        pattern: main
+        requireSignedCommits: false
+        requiredStatusChecks:
+          checks:
+            - "build"
+        requiredPullRequestReviews:
+          requireCodeOwnerReviews: true
   actions:
     enableReusableWorkflowsForOrganizationAccess: true
+  visibility: public
