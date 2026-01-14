@@ -4,15 +4,18 @@ metadata:
   name: github-workflow-techdocs
 spec:
   description: "No description provided"
+  visibility: "public"
+
 
   branches:
-    default: main
+    default: "main"
     protection:
-      - id: main
-        pattern: main
+      - id: "main"
+        pattern: "main"
         requireSignedCommits: false
         requiredStatusChecks:
           checks:
             - "build"
         requiredPullRequestReviews:
           requireCodeOwnerReviews: true
+
