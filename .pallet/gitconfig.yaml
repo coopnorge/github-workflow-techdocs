@@ -14,8 +14,9 @@ spec:
         requiredStatusChecks:
           checks:
             - "build"
+            - 'policy-bot: main'
         requiredPullRequestReviews:
-          requireCodeOwnerReviews: true
+          requireCodeOwnerReviews: false
   actions:
     enableReusableWorkflowsForOrganizationAccess: true
   visibility: public
