@@ -27,12 +27,14 @@ on:
         default: techdocs-publisher@backstage-production-44f7.iam.gserviceaccount.com
         required: false
     secrets: {}
+
 concurrency:
   group: techdocs-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
 jobs:
   setup:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     permissions:
       contents: read
       pull-requests: read
@@ -76,6 +78,7 @@ jobs:
               - .vale/**
             markdown:
               - added|modified: "${{ inputs.docs_dir }}**/*.md"
+
   techdocs:
     needs: ["setup"]
     if: ${{ needs.setup.outputs.build == 'true' }}
@@ -83,7 +86,7 @@ jobs:
       contents: read
       id-token: write
       packages: read
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     env:
       XDG_CACHE_HOME: ${{ github.workspace }}/.cache
     steps:
