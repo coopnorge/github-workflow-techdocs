@@ -1,0 +1,14 @@
+kubernetes:
+- '.pallet/**'
+- 'devtools/kubernetes.*'
+- 'docker-compose.yaml'
+workflows:
+- '.github/workflows/cicd.yaml'
+- '.github/path-filters.yaml'
+techdocs:
+- 'docs/**'
+- 'devtools/techdocs.*'
+- 'docker-compose.yaml'
+- 'catalog-info.yaml'
+policy-bot:
+- .policy.yml

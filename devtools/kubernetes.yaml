@@ -1,0 +1,13 @@
+services:
+  # Do not remove, used by pallet validation
+  kubernetes-devtools:
+    build:
+      dockerfile: kubernetes.Dockerfile
+    privileged: false
+    command: validate
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    volumes:
+      - ../:/srv/workspace:z
+      - $HOME/.argocd:/root/.config/argocd

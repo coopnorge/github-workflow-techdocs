@@ -1,11 +1,82 @@
+name: CI/CD
 on:
-  pull_request:
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  pull_request: {}
+  push:
+    branches:
+    - main
+  workflow_dispatch: {}
+
 jobs:
-  build:
-    runs-on: ubuntu-24.04
-    permissions: {}
+
+  setup:
+    permissions:
+      contents: read
+      pull-requests: read
+    name: Setup
+    runs-on: ubuntu-slim
+    outputs:
+      run-kubernetes-ci: ${{ ( steps.changes.outputs.kubernetes == 'true' || steps.changes.outputs.workflows == 'true' ) && github.event_name == 'pull_request' }}
+      run-techdocs-ci: ${{ steps.changes.outputs.techdocs == 'true' || steps.changes.outputs.workflows == 'true' || github.event_name == 'workflow_dispatch' }}
+      validate-policy-bot-config: ${{ steps.changes.outputs.policy-bot == 'true' }}
     steps:
-      - run: echo hello world
+    - uses: actions/checkout@v6
+    - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d   # v4
+      id: changes
+      with:
+        list-files: json
+        filters: .github/path-filters.yaml
+    - name: Debug ...
+      run: |
+        echo ::${{ steps.changes.outputs }}
+
+  policy-bot:
+    name: Validate policy-bot configuration
+    needs: setup
+    if: needs.setup.outputs.validate-policy-bot-config == 'true'
+    uses: coopnorge/github-workflow-policy-bot-config-validation/.github/workflows/policy-bot-config-validation.yaml@v0
+    permissions:
+      contents: read
+    secrets:
+      policy-bot-server-url: ${{ secrets.POLICY_BOT_BASE_URL }}
+
+  kubernetes-ci:
+    # this job is here by default to validate the pallet configurations in the
+    # ./pallet folder
+    name: "Kubernetes CI"
+    permissions:
+      contents: read
+      pull-requests: write
+    concurrency:
+      group: ${{ github.repository }}-${{ github.workflow }}-kubernetes-ci-${{ github.ref }}
+      cancel-in-progress: true
+    needs: setup
+    if: needs.setup.outputs.run-kubernetes-ci == 'true'
+    uses: coopnorge/github-workflow-kubernetes-validation/.github/workflows/kubernetes-validation.yaml@v2.1.4
+    secrets:
+      argocd-api-token: ${{ secrets.ARGOCD_API_TOKEN }}
+
+  techdocs:
+    needs: setup
+    if: ${{ needs.setup.outputs.run-techdocs-ci == 'true'}}
+    concurrency:
+      group: ${{ github.repository }}-${{ github.workflow }}-techdocs-${{ github.ref }}
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      id-token: write
+      packages: read
+      pull-requests: read
+    name: TechDocs
+    uses: coopnorge/github-workflow-techdocs/.github/workflows/techdocs.yaml@v0
+
+  build:
+    if: failure() || cancelled()
+    needs:
+    - kubernetes-ci
+    - techdocs
+    - policy-bot
+    permissions: {}
+    runs-on: ubuntu-slim
+    steps:
+    - run: exit 1
+      name: "Catch errors"
