@@ -1,6 +1,6 @@
-# TechDocs GitHub Actions Workflow
+# Techdocs GitHub Actions Workflow
 
-Publish your TechDocs to Inventory.
+Publish your Techdocs to Inventory.
 
 Expect breaking changes until version 1.
 
@@ -8,7 +8,7 @@ Expect breaking changes until version 1.
 
 In your repository you will need the following:
 
-### Content and TechDocs configuration
+### Content and Techdocs configuration
 
 #### Documentation
 
@@ -58,8 +58,8 @@ services:
       - "127.0.0.1:8000:8000/tcp"
     command: serve
 volumes:
-  xdg-cache-home: { }
-  nothing: { }
+  xdg-cache-home: {}
+  nothing: {}
 ```
 
 ```Dockerfile title="devtools/Dockerfile"
@@ -101,13 +101,12 @@ default: true
 
 # MD007/ul-indent - Unordered list indentation
 MD007:
-  indent: 2  # This is what works in TechDocs
+  indent: 2 # This is what works in Techdocs
 
 MD033: false
 
 # MD046/code-block-style - Code block style
 MD046: false
-
 
 MD013:
   code_blocks: false
@@ -131,7 +130,7 @@ Packages = https://github.com/coopnorge/vale-coop/releases/latest/download/Coop.
 ### Workflow configuration
 
 ```yaml title=".github/workflows/techdocs.yaml"
-name: TechDocs
+name: Techdocs
 on:
   push: {}
 jobs:
@@ -156,15 +155,20 @@ Add this line to `.gitignore`
 ### Inputs
 
 <!-- markdownlint-disable MD013 -->
-| Name                                | Type     | Required | Description                                                                                    | Default Value                                                                                             |
-|-------------------------------------|----------|----------|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| `docs_dir`                          | `string` | `false`  | The directory where the documentation files are stored, relative to the root of the repository | `docs/`                                                                                                   |
-| `docker-compose-service`            | `string` | `false`  | The `docker compose` service hosting the [TechDocs Engineering Image]                          | `techdocs`                                                                                                |
-| `techdocs_bucket`                   | `string` | `false`  | The name of the TechDocs Cloud Storage Bucket                                                  | `coop-techdocs-backstage-production-44f7`                                                                 |
-| `workload_identity_provider`        | `string` | `false`  | Workload Identity Federation Provider, used for debugging                                      | `projects/1063410054216/locations/global/workloadIdentityPools/techdocs-pool/providers/techdocs-provider` |
-| `workload_identity_service_account` | `string` | `false`  | Service Account that can managed the Cloud Storage Bucket, used for debugging                  | `techdocs-publisher@backstage-production-44f7.iam.gserviceaccount.com`                                    |
+
+| Name                                |  Type    |  Required | Description                                                                                    | Default Value                                                                                             |
+| ----------------------------------- | -------- | --------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `docs_dir`                          | `string` |  `false`  | The directory where the documentation files are stored, relative to the root of the repository | `docs/`                                                                                                   |
+| `docker-compose-service`            | `string` |  `false`  | The `docker compose` service hosting the [Techdocs Engineering Image]                          | `techdocs`                                                                                                |
+| `techdocs_bucket`                   | `string` |  `false`  | The name of the Techdocs Cloud Storage Bucket                                                  | `coop-techdocs-backstage-production-44f7`                                                                 |
+| `workload_identity_provider`        | `string` |  `false`  | Workload Identity Federation Provider, used for debugging                                      | `projects/1063410054216/locations/global/workloadIdentityPools/techdocs-pool/providers/techdocs-provider` |
+| `workload_identity_service_account` | `string` |  `false`  | Service Account that can managed the Cloud Storage Bucket, used for debugging                  | `techdocs-publisher@backstage-production-44f7.iam.gserviceaccount.com`                                    |
+
 <!-- markdownlint-enable MD013 -->
 
-[Creating and publishing your docs]: https://backstage.io/docs/features/techdocs/creating-and-publishing
-[Descriptor Format of Catalog Entities]: https://backstage.io/docs/features/software-catalog/descriptor-format
-[TechDocs Engineering Image]: https://github.com/coopnorge/engineering-docker-images/tree/main/images/techdocs
+[Creating and publishing your docs]:
+  https://backstage.io/docs/features/techdocs/creating-and-publishing
+[Descriptor Format of Catalog Entities]:
+  https://backstage.io/docs/features/software-catalog/descriptor-format
+[Techdocs Engineering Image]:
+  https://github.com/coopnorge/engineering-docker-images/tree/main/images/techdocs
