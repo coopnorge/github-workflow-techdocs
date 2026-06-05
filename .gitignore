@@ -1,3 +1,18 @@
 site/
 mkdocs.yml
-.vale/
+
+# Ignore everything in .vale, but allow the styles directory
+.vale/*
+!.vale/styles/
+
+# Ignore everything in styles, but allow the config directory
+.vale/styles/*
+!.vale/styles/config/
+
+# Ignore everything in config, but allow vocabularies
+.vale/styles/config/*
+!.vale/styles/config/vocabularies/
+
+# Ignore everything in vocabularies, but allow Local
+.vale/styles/config/vocabularies/*
+!.vale/styles/config/vocabularies/Local/
