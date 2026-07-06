@@ -44,7 +44,7 @@ jobs:
       build: ${{ steps.paths-filter.outputs.build }}
       publish: ${{ github.ref == 'refs/heads/main' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4
         id: paths-filter
         with:
@@ -90,7 +90,7 @@ jobs:
     env:
       XDG_CACHE_HOME: ${{ github.workspace }}/.cache
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Validate
