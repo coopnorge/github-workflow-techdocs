@@ -89,43 +89,17 @@ updates:
 
 The centrally managed
 [`mkdocs.yml`](https://github.com/coopnorge/engineering-docker-images/blob/main/images/techdocs/context/mkdocs.yml)
-provides a default configuration and a set up of bundled plugins.
+provides a default configuration and a set up of bundled plugins. Unless you
+need to deviate from this default configuration, you should not provide your own
+`mkdocs.yml` file.
 
 For more information see: [Creating and publishing your docs].
 
-#### markdownlint configuration
+#### Validation in CI
 
-```yaml title=".markdownlint.yaml"
----
-default: true
-
-# MD007/ul-indent - Unordered list indentation
-MD007:
-  indent: 2 # This is what works in Techdocs
-
-MD033: false
-
-# MD046/code-block-style - Code block style
-MD046: false
-
-MD013:
-  code_blocks: false
-  tables: false
-
-MD024:
-  allow_different_nesting: true
-
-# MD029- ignored to prevent errors when using code blocks within ordered lists
-MD029: false
-```
-
-#### Vale configuration
-
-```ini title=".vale.ini"
-StylesPath = .vale/styles
-
-Packages = https://github.com/coopnorge/vale-coop/releases/latest/download/Coop.zip
-```
+See the [documentation for the Techdocs Engineering Image] on what validations
+are done in CI, and the [documentation guidelines] for general guidelines on how
+to write documentation in markdown format.
 
 ### Workflow configuration
 
@@ -142,14 +116,6 @@ jobs:
       pull-requests: read
     name: TechDocs
     uses: coopnorge/github-workflow-techdocs/.github/workflows/techdocs.yaml@v0
-```
-
-### `.gitignore` configuration
-
-Add this line to `.gitignore`
-
-```text
-.vale
 ```
 
 ### Inputs
@@ -172,3 +138,7 @@ Add this line to `.gitignore`
   https://backstage.io/docs/features/software-catalog/descriptor-format
 [Techdocs Engineering Image]:
   https://github.com/coopnorge/engineering-docker-images/tree/main/images/techdocs
+[documentation for the Techdocs Engineering Image]:
+  https://inventory.internal.coop/docs/default/system/engineering-docker-images/images/techdocs/
+[documentation guidelines]:
+  https://inventory.internal.coop/docs/default/component/guidelines/documentation
