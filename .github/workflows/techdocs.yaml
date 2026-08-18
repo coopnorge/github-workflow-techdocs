@@ -26,6 +26,10 @@ on:
         type: string
         default: techdocs-publisher@backstage-production-44f7.iam.gserviceaccount.com
         required: false
+      force_build:
+        type: boolean
+        default: false
+        required: false
     secrets: {}
 
 concurrency:
@@ -81,7 +85,7 @@ jobs:
 
   techdocs:
     needs: ["setup"]
-    if: ${{ needs.setup.outputs.build == 'true' }}
+    if: ${{ needs.setup.outputs.build == 'true' || inputs.force_build }}
     permissions:
       contents: read
       id-token: write

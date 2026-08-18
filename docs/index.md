@@ -122,13 +122,14 @@ jobs:
 
 <!-- markdownlint-disable MD013 -->
 
-| Name                                |  Type    |  Required | Description                                                                                    | Default Value                                                                                             |
-| ----------------------------------- | -------- | --------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `docs_dir`                          | `string` |  `false`  | The directory where the documentation files are stored, relative to the root of the repository | `docs/`                                                                                                   |
-| `docker-compose-service`            | `string` |  `false`  | The `docker compose` service hosting the [Techdocs Engineering Image]                          | `techdocs`                                                                                                |
-| `techdocs_bucket`                   | `string` |  `false`  | The name of the Techdocs Cloud Storage Bucket                                                  | `coop-techdocs-backstage-production-44f7`                                                                 |
-| `workload_identity_provider`        | `string` |  `false`  | Workload Identity Federation Provider, used for debugging                                      | `projects/1063410054216/locations/global/workloadIdentityPools/techdocs-pool/providers/techdocs-provider` |
-| `workload_identity_service_account` | `string` |  `false`  | Service Account that can managed the Cloud Storage Bucket, used for debugging                  | `techdocs-publisher@backstage-production-44f7.iam.gserviceaccount.com`                                    |
+| Name                                |  Type     |  Required | Description                                                                                    | Default Value                                                                                             |
+| ----------------------------------- | --------- | --------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `docs_dir`                          | `string`  |  `false`  | The directory where the documentation files are stored, relative to the root of the repository | `docs/`                                                                                                   |
+| `docker-compose-service`            | `string`  |  `false`  | The `docker compose` service hosting the [Techdocs Engineering Image]                          | `techdocs`                                                                                                |
+| `techdocs_bucket`                   | `string`  |  `false`  | The name of the Techdocs Cloud Storage Bucket                                                  | `coop-techdocs-backstage-production-44f7`                                                                 |
+| `workload_identity_provider`        | `string`  |  `false`  | Workload Identity Federation Provider, used for debugging                                      | `projects/1063410054216/locations/global/workloadIdentityPools/techdocs-pool/providers/techdocs-provider` |
+| `workload_identity_service_account` | `string`  |  `false`  | Service Account that can managed the Cloud Storage Bucket, used for debugging                  | `techdocs-publisher@backstage-production-44f7.iam.gserviceaccount.com`                                    |
+| `force_build`                       | `boolean` |  `false`  | Build and attempt to publish techdocs even if no changes were detected.                        | `false`                                                                                                   |
 
 <!-- markdownlint-enable MD013 -->
 
