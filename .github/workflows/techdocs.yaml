@@ -85,7 +85,7 @@ jobs:
 
   techdocs:
     needs: ["setup"]
-    if: ${{ needs.setup.outputs.build == 'true' || inputs.force_build == 'true' }}
+    if: ${{ needs.setup.outputs.build == 'true' || inputs.force_build }}
     permissions:
       contents: read
       id-token: write
