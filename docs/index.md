@@ -129,7 +129,7 @@ jobs:
 | `techdocs_bucket`                   | `string`  |  `false`  | The name of the Techdocs Cloud Storage Bucket                                                  | `coop-techdocs-backstage-production-44f7`                                                                 |
 | `workload_identity_provider`        | `string`  |  `false`  | Workload Identity Federation Provider, used for debugging                                      | `projects/1063410054216/locations/global/workloadIdentityPools/techdocs-pool/providers/techdocs-provider` |
 | `workload_identity_service_account` | `string`  |  `false`  | Service Account that can managed the Cloud Storage Bucket, used for debugging                  | `techdocs-publisher@backstage-production-44f7.iam.gserviceaccount.com`                                    |
-| `force_build`                       | `boolean` |  `false`  | Build and attempt to publish techdocs even if no changed were detected.                        | `false`                                                                                                   |
+| `force_build`                       | `boolean` |  `false`  | Build and attempt to publish techdocs even if no changes were detected.                        | `false`                                                                                                   |
 
 <!-- markdownlint-enable MD013 -->
 
