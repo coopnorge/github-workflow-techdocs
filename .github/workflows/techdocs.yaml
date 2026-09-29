@@ -90,6 +90,9 @@ jobs:
       contents: read
       id-token: write
       packages: read
+      pull-requests: write
+      checks: write
+      issues: write
     runs-on: ubuntu-latest
     env:
       XDG_CACHE_HOME: ${{ github.workspace }}/.cache
@@ -97,6 +100,16 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+      - name: Validate-fix
+        if: github.event_name == 'pull_request'
+        run: 'docker compose run --rm ${{ inputs.docker-compose-service }} validate-fix MARKDOWN_FILES="${{ needs.setup.outputs.changed-markdown-files }}"'
+      - name: show diff
+        run: git diff
+      - uses: reviewdog/action-suggester@2558ba17e65a9039e73764a73009fc05fef28a46 # v1.24.3
+        if: github.event_name == 'pull_request'
+        with:
+          tool_name: prettier
+          github_token: ${{ secrets.REVIEWBOT_GITHUB_TOKEN }}
       - name: Validate
         if: ${{ needs.setup.outputs.changed-markdown }}
         run: 'docker compose run --rm ${{ inputs.docker-compose-service }} validate MARKDOWN_FILES="${{ needs.setup.outputs.changed-markdown-files }}"'
